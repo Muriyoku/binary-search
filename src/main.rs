@@ -4,7 +4,7 @@ use std::time::Instant;
 fn main() {
     /*
         One Billion of item in a List will make your machine crash! 
-        Binary Search is better than a simple loop in small scenarios 
+        Binary Search is better than a simple loop in large list cases 
     */
 
     let num_list: Vec<i64> = (0..1_000_001).collect();

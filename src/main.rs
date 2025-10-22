@@ -10,34 +10,35 @@ fn main() {
     let num_list: Vec<i64> = (0..1_000_001).collect();
     
     mensure_time(|| {binary_search(&num_list, &1_000_000).unwrap();}, "binary_search");  
-    mensure_time(|| {linear_search(&num_list, &1_000_000);}, "linear_search");
+    mensure_time(|| {linear_search(&num_list, &1_000_000).unwrap();}, "linear_search");
 }
 
-fn linear_search<T: Ord + Debug>(source: &[T], item: &T) -> Option<usize> {
+fn linear_search<T: Ord + Debug>(source: &[T], item: &T) -> Result<usize, String> {
   
     for (idx, n) in source.iter().enumerate() {
         if n == item {
-            return Some(idx);
+            return Ok(idx);
         };
     }
 
-    None
+    Err(String::from("Item wasn't found")) 
 }
 
-fn binary_search<T: Ord + Debug>(source: &[T], item: &T) -> Option<usize> {
-    if source.is_empty() { return None };
+fn binary_search<T: Ord + Debug>(source: &[T], item: &T) -> Result<usize, String> {
+    if source.is_empty() { 
+        return Err(String::from("The source list is empty")) 
+    };
 
     let mut low: usize = 0;
     let mut high: usize = source.len().saturating_sub(1);
     
     while low <= high {
         let middle: usize = (low + high) / 2;
-        let guess: &T = &source[middle];
 
-        if guess == item { 
-            return Some(middle) 
+        if &source[middle] == item { 
+            return Ok(middle) 
         } 
-        else if  guess > item { 
+        else if  &source[middle] > item { 
             if middle == 0 { break; };
             high = middle - 1 
         } 
@@ -46,7 +47,7 @@ fn binary_search<T: Ord + Debug>(source: &[T], item: &T) -> Option<usize> {
         };
     };
 
-    None
+    Err(String::from("Item wasn't found")) 
 }
 
 

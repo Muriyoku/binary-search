@@ -36,16 +36,11 @@ fn binary_search<T: Ord + Debug>(source: &[T], item: &T) -> Result<usize, String
     while low <= high {
         let middle: usize = (low + high) / 2;
 
-        if &source[middle] == item { 
-            return Ok(middle) 
-        } 
-        else if  &source[middle] > item { 
-            if middle == 0 { break; };
-            high = middle - 1 
-        } 
-        else { 
-            low = middle + 1 
-        };
+        match source[middle].cmp(item) {
+           std::cmp::Ordering::Equal => return Ok(middle),
+           std::cmp::Ordering::Greater => high = middle - 1, 
+           std::cmp::Ordering::Less => low = middle + 1, 
+        }
     };
 
     Err(String::from("Item wasn't found")) 

@@ -10,6 +10,7 @@ fn main() {
     let num_list: Vec<i64> = (0..1_000_001).collect();
     
     mensure_time(|| {binary_search(&num_list, &1_000_000).unwrap();}, "binary_search");  
+    mensure_time(|| {let _ = &num_list.binary_search(&1_000_000).unwrap();}, "built-in binary search");
     mensure_time(|| {linear_search(&num_list, &1_000_000).unwrap();}, "linear_search");
 }
 
